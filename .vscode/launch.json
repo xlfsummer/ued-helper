@@ -18,7 +18,8 @@
             ],
             "args": [
 
-            ]
+            ],
+            "console": "integratedTerminal"
         }
     ]
 }
