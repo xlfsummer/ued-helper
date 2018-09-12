@@ -1,12 +1,12 @@
 let util = require("./lib/util.js");
 let url = require("url");
 let inquirer = require("inquirer");
-let buildFileTree = require("./lib/buildFileTree.js");
+let projectFile = require("./lib/buildFileTree.js");
 let login = require("./lib/login.js");
 
 (async function main() {
     //首页
-    let indexUrl = "http://ued.iwanshang.cn/";
+    let indexUrl = util.resolveUrl("/");
     let $ = await util.getDocument(indexUrl);
     let moduleNavLinks = $(".header ul a");
 
@@ -32,14 +32,16 @@ let login = require("./lib/login.js");
     ]);
 
     /** 登录 */
-    await login.login(/* username , password */);
+    await login.login(
+
+    );
 
     // 项目
     let projectUrl = answer.project;
-    await buildFileTree.buildFileTree(projectUrl);
+    await projectFile.getProjectFileInfo(projectUrl);
 
 
     // classifyList
 })().catch(e => {
-    debugger
+    console.error(e);
 })
