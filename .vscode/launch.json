@@ -7,6 +7,12 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "测试下载",
+            "program": "${workspaceFolder}/request.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "启动程序",
             "program": "${workspaceFolder}\\app.js",
             // "program": "${workspaceFolder}\\app.mjs",
@@ -20,6 +26,7 @@
 
             ],
             "console": "integratedTerminal"
-        }
+        },
+
     ]
 }

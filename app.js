@@ -1,7 +1,7 @@
 let util = require("./lib/util.js");
 let url = require("url");
 let inquirer = require("inquirer");
-let projectFile = require("./lib/buildFileTree.js");
+let projectFile = require("./lib/projectFile.js");
 let login = require("./lib/login.js");
 
 (async function main() {
@@ -38,8 +38,9 @@ let login = require("./lib/login.js");
 
     // 项目
     let projectUrl = answer.project;
-    await projectFile.getProjectFileInfo(projectUrl);
+    let projectFiles = await projectFile.getProjectFileInfo(projectUrl);
 
+    projectFile.downloadAll(projectFiles);
 
     // classifyList
 })().catch(e => {

@@ -2,7 +2,7 @@
   "name": "ued-helper",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,7 +12,11 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "inquirer": "^6.2.0",
+    "md5": "^2.2.1",
     "request": "^2.88.0",
     "tough-cookie": "^2.4.3"
+  },
+  "bin": {
+    "ued": "./bin/ued.js"
   }
 }
