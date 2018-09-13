@@ -7,8 +7,18 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "测试下载",
-            "program": "${workspaceFolder}/request.js"
+            "name": "ued命令行",
+            "program": "${workspaceFolder}\\bin\\ued.js",
+            "outFiles": [
+                "${workspaceFolder}/**/*.js"
+            ],
+            "console": "integratedTerminal",
+            "args": [
+                "-p",
+                "139847012384",
+                "-u",
+                "asdfasdf"
+            ]
         },
         {
             "type": "node",
@@ -18,12 +28,6 @@
             // "program": "${workspaceFolder}\\app.mjs",
             "outFiles": [
                 "${workspaceFolder}/**/*.js"
-            ],
-            "runtimeArgs": [
-                // "--experimental-modules"
-            ],
-            "args": [
-
             ],
             "console": "integratedTerminal"
         },
