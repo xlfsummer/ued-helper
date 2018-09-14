@@ -14,7 +14,6 @@
     "cheerio": "^1.0.0-rc.2",
     "commander": "^2.18.0",
     "inquirer": "^6.2.0",
-    "md5": "^2.2.1",
     "request": "^2.88.0",
     "tough-cookie": "^2.4.3"
   },
