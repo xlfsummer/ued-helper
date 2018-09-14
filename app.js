@@ -7,10 +7,18 @@ let fs = require("fs");
 let path = require("path");
 
 let app = module.exports = {
-    start: () => main().catch(e => {
-        debuggerl
-        console.log(e)
-    }),
+    start(option){
+        this.option = option;
+        main().catch(e => {
+            // debugger
+            console.log(e)
+
+            console.log('Press any key to exit');
+            process.stdin.setRawMode(true);
+            process.stdin.resume();
+            process.stdin.on('data', () => process.exit(1));
+        })
+    },
     option: {}
 }
 
@@ -35,11 +43,11 @@ async function main() {
 
     let cmdProjectUrl;
     if (app.option.project) {
-        cmdProjectUrl = links.find(link => {
+        cmdProjectUrl = (links.find(link =>
             link.name == app.option.project
-        });
+        ) || {}).url;
         if (!cmdProjectUrl) {
-            console.log("产品不存在")
+            console.log(`产品[${app.option.project}]不存在`)
         }
     }
 
@@ -69,12 +77,14 @@ async function main() {
         },
         ...(app.option.ignorePsd != null
             ? []
-            : [{
+            : [
+                {
                 type: "confirm",
                 name: "ignorePsd",
                 message: "是否忽略 psd 文件",
                 default: true
-            }]
+                }
+            ]
         ),
     ]);
 
@@ -84,7 +94,16 @@ async function main() {
 
     let batPath = path.resolve(process.cwd(), "update.bat");
     if (!fs.existsSync(batPath)) {
-        fs.writeFileSync(batPath, `"chcp 65001" && "ued -p ${links.find(link => link.url == projectUrl).name} -u ${user} ${ignorePsd ? "" : "--no-ignore-psd"}"`, "utf8");
+        fs.writeFileSync(batPath
+            ,
+            `chcp 65001\r\n` +
+            `ued` +
+            ` -p ${ links.find(link => link.url == projectUrl).name }` +
+            ` -u ${ user }` +
+            ` --ignore-psd ${!!ignorePsd}`
+            ,
+            "utf8"
+        );
     }
 
     /** 登录 */
@@ -93,7 +112,9 @@ async function main() {
     // 项目
     let projectFiles = await projectFile.getProjectFileInfo(projectUrl);
 
-    projectFile.downloadAll(projectFiles, ignorePsd);
+    await projectFile.downloadAll(projectFiles, ignorePsd);
 
-    // classifyList
+    console.log("拉取完毕, 按任意键退出");
+    process.stdin.resume();
+    process.stdin.on('data', () => process.exit(0));
 }

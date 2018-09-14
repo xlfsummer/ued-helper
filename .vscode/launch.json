@@ -4,6 +4,12 @@
     // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+        // {
+        //     "type": "node",
+        //     "request": "launch",
+        //     "name": "Launch Program",
+        //     "program": "${workspaceFolder}/app.js"
+        // },
         {
             "type": "node",
             "request": "launch",
@@ -15,9 +21,9 @@
             "console": "integratedTerminal",
             "args": [
                 "-p",
-                "139847012384",
+                "酒店预订小程序",
                 "-u",
-                "asdfasdf"
+                "13709036366"
             ]
         },
         {
