@@ -2,6 +2,8 @@ let util = require("./lib/util.js");
 let url = require("url");
 let inquirer = require("inquirer");
 let projectFile = require("./lib/projectFile.js");
+let projectFileStream = require("./lib/projectFileStream.js");
+let ArrayToItemDuplex = require("./lib/arrayToItem.js");
 let login = require("./lib/login.js");
 let fs = require("fs");
 let path = require("path");
@@ -110,11 +112,25 @@ async function main() {
     await login.login(user, answer.password);
 
     // 项目
-    let projectFiles = await projectFile.getProjectFileInfo(projectUrl);
+    // let projectFiles = await projectFile.getProjectFileInfo(projectUrl);
+    // await projectFile.downloadAll(projectFiles, ignorePsd);
 
-    await projectFile.downloadAll(projectFiles, ignorePsd);
-
-    console.log("拉取完毕, 按任意键退出");
-    process.stdin.resume();
-    process.stdin.on('data', () => process.exit(0));
+    projectFileStream.createProjectDirInfosStream(projectUrl)
+        .pipe(new ArrayToItemDuplex())
+        .pipe(projectFileStream.createDirInfo2DFileInfosTransform())
+        .pipe(new ArrayToItemDuplex())
+        .pipe(projectFileStream.createFileRedirectUrlTransform())
+        .pipe(projectFileStream.createDownloadFileWriteStream())
+        .on("finish", ()=>{
+            debugger
+            console.log("拉取完毕, 按任意键退出");
+            process.stdin.resume();
+            process.stdin.on('data', () => process.exit(0));
+        })
+        .on("error", (e)=>{
+            debugger
+        })
+        .on("close", (e)=>{
+            debugger
+        })
 }
